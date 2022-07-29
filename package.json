@@ -33,14 +33,13 @@
       "url": "https://github.com/amilajack"
     }
   ],
-  "main": "./src/main/main.ts",
+  "main": "./src/main/main.js",
   "scripts": {
     "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
     "build:renderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
     "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
-    "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",
     "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
     "prepare": "husky install",
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
@@ -49,28 +48,13 @@
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
     "test": "jest"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "cross-env NODE_ENV=development eslint --cache"
-    ],
-    "*.json,.{eslintrc,prettierrc}": [
-      "prettier --ignore-path .eslintignore --parser json --write"
-    ],
-    "*.{css,scss}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
-    ],
-    "*.{html,md,yml}": [
-      "prettier --ignore-path .eslintignore --single-quote --write"
-    ]
-  },
   "browserslist": [],
   "prettier": {
     "singleQuote": true,
     "overrides": [
       {
         "files": [
-          ".prettierrc",
-          ".eslintrc"
+          ".prettierrc"
         ],
         "options": {
           "parser": "json"
@@ -109,7 +93,10 @@
   "dependencies": {
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.7",
+    "electron-store": "^8.0.2",
     "electron-updater": "^5.0.1",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0"
@@ -126,8 +113,6 @@
     "@types/react-test-renderer": "^18.0.0",
     "@types/terser-webpack-plugin": "^5.0.4",
     "@types/webpack-bundle-analyzer": "^4.4.1",
-    "@typescript-eslint/eslint-plugin": "^5.18.0",
-    "@typescript-eslint/parser": "^5.18.0",
     "autoprefixer": "^10.4.7",
     "browserslist-config-erb": "^0.0.3",
     "chalk": "^4.1.2",
@@ -143,18 +128,6 @@
     "electron-notarize": "^1.2.1",
     "electron-rebuild": "^3.2.7",
     "electronmon": "^2.0.2",
-    "eslint": "^8.12.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-erb": "^4.0.3",
-    "eslint-import-resolver-typescript": "^2.7.1",
-    "eslint-import-resolver-webpack": "^0.13.2",
-    "eslint-plugin-compat": "^4.0.2",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jest": "^26.1.3",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.4.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "husky": "^7.0.4",
