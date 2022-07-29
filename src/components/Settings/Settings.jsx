@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 export const Settings = () => {
   const navigate = useNavigate();
 
+  // const userTimers = getUserTimers();
+
   return (
     <div className="flex flex-col p-4 justify-around items-center bg-teal-900 h-screen w-full">
       <div>
@@ -15,9 +17,13 @@ export const Settings = () => {
         />
       </div>
 
-      <select className="w-2/4 p-2" name="timer" id="timer">
+      <select
+        className="w-2/4 p-2 rounded-sm focus-visible:outline-none focus:outline-none"
+        name="timer"
+        id="timer"
+      >
         <option className="p-4 " value="choose">
-          Elige una opcion
+          Choose an option
         </option>
         <option className="p-4 " value="20/5">
           20/5
@@ -28,10 +34,15 @@ export const Settings = () => {
         <option className="p-4 " value="40/20">
           40/20
         </option>
+        {/* {userTimers.map((timer) => (
+          <option className="p-4" value={`${timer[0]}/${timer[1]}`}>
+            `${timer[0]}/${timer[1]}`
+          </option>
+        ))} */}
       </select>
 
       <Link
-        className="p-4 bg-slate-900  text-white rounded-lg"
+        className="p-4 px-8 bg-slate-900  text-white rounded-lg"
         to={'/configure'}
       >
         Configure

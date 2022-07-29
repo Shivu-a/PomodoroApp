@@ -8,10 +8,17 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
+
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
+import {
+  getWinPosition,
+  getWinSettings,
+  saveBounds,
+  saveWindowPosition,
+} from '../components/Settings/userSettings';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -23,10 +30,10 @@ export default class AppUpdater {
   }
 }
 
-let mainWindow: BrowserWindow | null = null;
+let mainWindow = BrowserWindow;
 
 ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
+  const msgTemplate = (pingPong) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
 });
@@ -65,14 +72,22 @@ const createWindow = async () => {
     ? path.join(process.resourcesPath, 'assets')
     : path.join(__dirname, '../../assets');
 
-  const getAssetPath = (...paths: string[]): string => {
+  const getAssetPath = (...paths) => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
+  const bounds = getWinSettings();
+
+  const position = getWinPosition();
+
+  console.log(bounds);
+
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
+    width: bounds[0],
+    height: bounds[1],
+    x: position[0],
+    y: position[1],
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: app.isPackaged
@@ -105,6 +120,14 @@ const createWindow = async () => {
   mainWindow.webContents.setWindowOpenHandler((edata) => {
     shell.openExternal(edata.url);
     return { action: 'deny' };
+  });
+
+  mainWindow.on('resized', () => {
+    saveBounds(mainWindow.getSize());
+  });
+
+  mainWindow.on('moved', () => {
+    saveWindowPosition(mainWindow.getPosition());
   });
 
   // Remove this if your app does not use auto updates

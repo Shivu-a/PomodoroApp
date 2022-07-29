@@ -24,14 +24,14 @@ export const Configure = () => {
           action=""
           className="flex justify-center items-center flex-col"
         >
-          <H4Title title={'Time concentrating'} />
+          <H4Title title="Time concentrating" />
           <Input />
 
-          <H4Title title={'Break Time'} />
+          <H4Title title="Break Time" />
           <Input />
 
           <button className="p-4 px-8 bg-green-500 mt-3 rounded-md text-xl font-bold text-stone-900 ">
-            Save
+            Add
           </button>
         </form>
       </div>
