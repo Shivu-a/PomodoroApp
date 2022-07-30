@@ -42,10 +42,44 @@ export const getUserTimers = () => {
 
   if (userTimers) return userTimers;
   else {
-    return null;
+    return [];
   }
 };
 
 export const saveUserTimers = (timer) => {
   storage.set('userTimers', timer);
+};
+
+// Get and save user selected timer: used when selecting a timer and when initiating a pomodoro
+export const getUserSelectedTimer = () => {
+  const selectedTimer = storage.get('userSelectedTimer');
+
+  if (selectedTimer) return selectedTimer;
+  else {
+    return [20, 10];
+  }
+};
+
+export const setUserSelectedTimer = (timer) => {
+  storage.set('userSelectedTimer', timer);
+};
+
+// Añadir timer de usuario ya sea a un array o a un objeto pero de alguna forma tiene que ser iterable
+
+export const addUserTimer = (timer) => {
+  console.log(`El timer que recibimos de parametro es: ${timer}`);
+
+  const timers = storage.get('userTimers');
+  console.log(`Los timers guardados son: ${timers}`);
+
+  storage.set('userTimers', {
+    ...timers,
+    timer,
+  });
+
+  console.log(
+    `El valor a tener es: ${timer[0]},${
+      timer[1]
+    } ;;; El valor que tiene es: ${JSON.stringify(storage.get('userTimers'))}`
+  );
 };

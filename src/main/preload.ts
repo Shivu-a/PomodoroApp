@@ -18,4 +18,12 @@ contextBridge.exposeInMainWorld('electron', {
       ipcRenderer.once(channel, (_event, ...args) => func(...args));
     },
   },
+  requestTimers: (message: string) =>
+    ipcRenderer.invoke('requestTimers', message),
+  setUserSelectedTimer: (message: string) =>
+    ipcRenderer.invoke('setUserSelectedTimer', message),
+  getUserSelectedTimer: (message: string) =>
+    ipcRenderer.invoke('getUserSelectedTimer', message),
+  addUserTimer: (message: string) =>
+    ipcRenderer.invoke('addUserTimer', message),
 });

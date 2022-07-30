@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom';
 
 export const InitialPage = () => {
+  const handleStart = async () => {
+    const selectedTimer = await window.electron.getUserSelectedTimer();
+    console.log(await selectedTimer);
+  };
+
   return (
     <div className="flex justify-center items-center h-screen w-full bg-teal-900">
       <Link to="/settings">
@@ -10,7 +15,10 @@ export const InitialPage = () => {
         />
       </Link>
 
-      <button className="bg-red-600 p-4 h-1/4 aspect-square text-slate-200 rounded-full shadow-md shadow-red-900 transition-all ease-in-out font-bold active:translate-y-1 active:shadow-transparent">
+      <button
+        onClick={handleStart}
+        className="bg-red-600 p-4 h-1/4 aspect-square text-slate-200 rounded-full shadow-md shadow-red-900 transition-all ease-in-out font-bold active:translate-y-1 active:shadow-transparent"
+      >
         Start
       </button>
     </div>

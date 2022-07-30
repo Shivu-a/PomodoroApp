@@ -1,9 +1,27 @@
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export const Settings = () => {
   const navigate = useNavigate();
 
-  // const userTimers = getUserTimers();
+  const [userTimers, setUserTimers] = useState([]);
+
+  const getUserTimers = async () => {
+    setUserTimers(
+      await window.electron.requestTimers('Requesting user timers')
+    );
+  };
+
+  useEffect(() => {
+    getUserTimers();
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let selectedOption = e.target.children[0].value;
+    let userSelection = selectedOption.split('/');
+    window.electron.setUserSelectedTimer(userSelection, userSelection);
+  };
 
   return (
     <div className="flex flex-col p-4 justify-around items-center bg-teal-900 h-screen w-full">
@@ -17,29 +35,42 @@ export const Settings = () => {
         />
       </div>
 
-      <select
-        className="w-2/4 p-2 rounded-sm focus-visible:outline-none focus:outline-none"
-        name="timer"
-        id="timer"
+      <form
+        className="flex flex-col gap-1 w-full items-center"
+        onSubmit={handleSubmit}
       >
-        <option className="p-4 " value="choose">
-          Choose an option
-        </option>
-        <option className="p-4 " value="20/5">
-          20/5
-        </option>
-        <option className="p-4 " value="30/10">
-          20/5
-        </option>
-        <option className="p-4 " value="40/20">
-          40/20
-        </option>
-        {/* {userTimers.map((timer) => (
-          <option className="p-4" value={`${timer[0]}/${timer[1]}`}>
-            `${timer[0]}/${timer[1]}`
+        <select
+          className="w-2/4 p-2 rounded-sm focus-visible:outline-none focus:outline-none"
+          name="timer"
+          id="timer"
+        >
+          <option className="p-4 " value="20/5">
+            20/5
           </option>
-        ))} */}
-      </select>
+          <option className="p-4 " value="30/10">
+            30/10
+          </option>
+          <option className="p-4 " value="40/20">
+            40/20
+          </option>
+          {/* {userTimers.map((timer) => (
+            <option
+              key={`${userTimers[0]}/${userTimers[1]}`}
+              className="p-4"
+              value={`${userTimers[0]}/${userTimers[1]}`}
+            >
+              {`${userTimers[0]}/${userTimers[1]}`}
+            </option>
+          ))} */}
+        </select>
+
+        <button
+          type="submit"
+          className="p-4 px-8 bg-green-400 rounded-md font-semibold"
+        >
+          Set
+        </button>
+      </form>
 
       <Link
         className="p-4 px-8 bg-slate-900  text-white rounded-lg"

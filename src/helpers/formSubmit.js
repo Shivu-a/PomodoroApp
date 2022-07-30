@@ -5,5 +5,5 @@ export const formSubmit = (e) => {
   const timeConcentrating = firstValue.value;
   const breakTime = secondValue.value;
 
-  console.log(timeConcentrating, breakTime);
+  return { timeConcentrating, breakTime };
 };

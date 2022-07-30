@@ -14,10 +14,14 @@ import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import {
+  addUserTimer,
+  getUserSelectedTimer,
+  getUserTimers,
   getWinPosition,
   getWinSettings,
   saveBounds,
   saveWindowPosition,
+  setUserSelectedTimer,
 } from '../components/Settings/userSettings';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -36,6 +40,29 @@ ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
+});
+
+ipcMain.handle('requestTimers', async (event, data) => {
+  console.log(data);
+  const timers = getUserTimers();
+  return timers;
+});
+
+ipcMain.handle('getUserSelectedTimer', async (event, data) => {
+  const userSelectedTimer = await getUserSelectedTimer();
+  console.log(userSelectedTimer);
+  return userSelectedTimer;
+});
+
+ipcMain.handle('setUserSelectedTimer', async (event, data) => {
+  console.log('sexo');
+  console.log(data);
+
+  setUserSelectedTimer(data);
+});
+
+ipcMain.handle('addUserTimer', async (event, data) => {
+  addUserTimer(data);
 });
 
 if (process.env.NODE_ENV === 'production') {

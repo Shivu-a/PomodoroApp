@@ -1,10 +1,21 @@
 import { Input } from 'components/form/Input';
 import { H4Title } from 'components/H4Title';
-import { formSubmit } from 'helpers/formSubmit';
 import { useNavigate } from 'react-router-dom';
 
 export const Configure = () => {
   const navigate = useNavigate();
+
+  const addTimer = async (e) => {
+    e.preventDefault();
+    const [firstValue, secondValue] = e.target.querySelectorAll('input');
+
+    const timeConcentrating = firstValue.value;
+    const breakTime = secondValue.value;
+
+    const timer = [timeConcentrating, breakTime];
+
+    window.electron.addUserTimer(timer, timer);
+  };
 
   return (
     <div className="flex justify-center items-center bg-teal-900 h-screen w-full">
@@ -20,7 +31,7 @@ export const Configure = () => {
 
       <div className="flex justify-center items-center flex-col h-2/3 aspect-square">
         <form
-          onSubmit={formSubmit}
+          onSubmit={addTimer}
           action=""
           className="flex justify-center items-center flex-col"
         >
@@ -30,7 +41,10 @@ export const Configure = () => {
           <H4Title title="Break Time" />
           <Input />
 
-          <button className="p-4 px-8 bg-green-500 mt-3 rounded-md text-xl font-bold text-stone-900 ">
+          <button
+            type="submit"
+            className="p-4 px-8 bg-green-500 mt-3 rounded-md text-xl font-bold text-stone-900 "
+          >
             Add
           </button>
         </form>
