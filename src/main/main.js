@@ -15,6 +15,7 @@ import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import {
   addUserTimer,
+  deleteUserTimer,
   getUserSelectedTimer,
   getUserTimers,
   getWinPosition,
@@ -46,6 +47,10 @@ ipcMain.handle('requestTimers', async (event, data) => {
   console.log(data);
   const timers = getUserTimers();
   return timers;
+});
+
+ipcMain.handle('deleteUserTimer', async () => {
+  deleteUserTimer();
 });
 
 ipcMain.handle('getUserSelectedTimer', async (event, data) => {

@@ -26,4 +26,7 @@ contextBridge.exposeInMainWorld('electron', {
     ipcRenderer.invoke('getUserSelectedTimer', message),
   addUserTimer: (message: string) =>
     ipcRenderer.invoke('addUserTimer', message),
+  deleteUserTimer: () => {
+    ipcRenderer.invoke('deleteUserTimer');
+  },
 });

@@ -56,7 +56,7 @@ export const getUserSelectedTimer = () => {
 
   if (selectedTimer) return selectedTimer;
   else {
-    return [20, 10];
+    return [20, 5];
   }
 };
 
@@ -64,9 +64,14 @@ export const setUserSelectedTimer = (timer) => {
   storage.set('userSelectedTimer', timer);
 };
 
-// Añadir timer de usuario ya sea a un array o a un objeto pero de alguna forma tiene que ser iterable
+// Añadir y eliminar userCustom timer
 
 export const addUserTimer = (timer) => {
-  console.log(timer);
   storage.set('userCustomTimer', timer);
+  storage.set('userSelectedTimer', timer);
+};
+
+export const deleteUserTimer = () => {
+  storage.clear('userCustomTimer');
+  storage.set('userSelectedTimer', [20, 5]);
 };

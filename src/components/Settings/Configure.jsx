@@ -5,6 +5,10 @@ import { useNavigate } from 'react-router-dom';
 export const Configure = () => {
   const navigate = useNavigate();
 
+  const deleteTimer = () => {
+    window.electron.deleteUserTimer();
+  };
+
   const addTimer = async (e) => {
     e.preventDefault();
     const [firstValue, secondValue] = e.target.querySelectorAll('input');
@@ -41,12 +45,21 @@ export const Configure = () => {
           <H4Title title="Break Time" />
           <Input />
 
-          <button
-            type="submit"
-            className="p-4 px-8 bg-green-500 mt-3 rounded-md text-xl font-bold text-stone-900 "
-          >
-            Add
-          </button>
+          <div>
+            <button
+              type="button"
+              onClick={deleteTimer}
+              className="p-4 m-2 px-8 bg-red-700 font-bold text-warmGray-200 rounded-md"
+            >
+              Delete
+            </button>
+            <button
+              type="submit"
+              className="p-4 m-2 px-8 bg-green-500 mt-3 rounded-md font-bold text-stone-900 "
+            >
+              Add
+            </button>
+          </div>
         </form>
       </div>
     </div>
