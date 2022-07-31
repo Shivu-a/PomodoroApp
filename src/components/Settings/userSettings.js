@@ -38,11 +38,11 @@ export const saveWindowPosition = (position) => {
 
 // Get and save user custom timers
 export const getUserTimers = () => {
-  const userTimers = storage.get('userTimers');
+  const userTimers = storage.get('userCustomTimer');
 
   if (userTimers) return userTimers;
   else {
-    return [];
+    return false;
   }
 };
 
@@ -67,19 +67,6 @@ export const setUserSelectedTimer = (timer) => {
 // Añadir timer de usuario ya sea a un array o a un objeto pero de alguna forma tiene que ser iterable
 
 export const addUserTimer = (timer) => {
-  console.log(`El timer que recibimos de parametro es: ${timer}`);
-
-  const timers = storage.get('userTimers');
-  console.log(`Los timers guardados son: ${timers}`);
-
-  storage.set('userTimers', {
-    ...timers,
-    timer,
-  });
-
-  console.log(
-    `El valor a tener es: ${timer[0]},${
-      timer[1]
-    } ;;; El valor que tiene es: ${JSON.stringify(storage.get('userTimers'))}`
-  );
+  console.log(timer);
+  storage.set('userCustomTimer', timer);
 };

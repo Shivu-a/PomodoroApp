@@ -7,9 +7,8 @@ export const Settings = () => {
   const [userTimers, setUserTimers] = useState([]);
 
   const getUserTimers = async () => {
-    setUserTimers(
-      await window.electron.requestTimers('Requesting user timers')
-    );
+    const timer = await window.electron.requestTimers('Requesting user timers');
+    setUserTimers(await timer);
   };
 
   useEffect(() => {
@@ -44,24 +43,25 @@ export const Settings = () => {
           name="timer"
           id="timer"
         >
-          <option className="p-4 " value="20/5">
-            20/5
-          </option>
-          <option className="p-4 " value="30/10">
-            30/10
-          </option>
-          <option className="p-4 " value="40/20">
-            40/20
-          </option>
-          {/* {userTimers.map((timer) => (
-            <option
-              key={`${userTimers[0]}/${userTimers[1]}`}
-              className="p-4"
-              value={`${userTimers[0]}/${userTimers[1]}`}
-            >
-              {`${userTimers[0]}/${userTimers[1]}`}
+          <optgroup label="Preset Timers">
+            <option className="p-4 " value="20/5">
+              20/5
             </option>
-          ))} */}
+            <option className="p-4 " value="30/10">
+              30/10
+            </option>
+            <option className="p-4 " value="40/20">
+              40/20
+            </option>
+          </optgroup>
+
+          {userTimers && (
+            <optgroup label="User Timers">
+              <option
+                value={userTimers}
+              >{`${userTimers[0]}/${userTimers[1]}`}</option>
+            </optgroup>
+          )}
         </select>
 
         <button
