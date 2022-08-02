@@ -1,9 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const InitialPage = () => {
+  const navigate = useNavigate();
+
   const handleStart = async () => {
     const selectedTimer = await window.electron.getUserSelectedTimer();
-    console.log(await selectedTimer);
+
+    navigate('/timer', {
+      replace: true,
+      state: { timer: await selectedTimer },
+    });
   };
 
   return (
@@ -17,7 +23,7 @@ export const InitialPage = () => {
 
       <button
         onClick={handleStart}
-        className="bg-red-600 p-4 h-1/4 aspect-square text-slate-200 rounded-full shadow-md shadow-red-900 transition-all ease-in-out font-bold active:translate-y-1 active:shadow-transparent"
+        className="bg-red-600 p-4 h-1/4 aspect-square text-slate-200 rounded-full relative transition-all ease-in-out font-bold border-b-8 border-black active:translate-y-1 active:border-transparent"
       >
         Start
       </button>
