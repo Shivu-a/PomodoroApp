@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { PauseButton } from './timer/PauseButton';
 
 export const Timer = () => {
   const location = useLocation();
@@ -15,6 +16,11 @@ export const Timer = () => {
   }, []);
 
   const pause = () => {
+    console.log(isPaused ? 'Pausado' : 'Reanudado');
+    setIsPaused(!isPaused);
+  };
+
+  const stop = () => {
     setIsPaused(!isPaused);
   };
 
@@ -29,6 +35,11 @@ export const Timer = () => {
         setMinutes(minutes - 1);
         setSeconds(59);
       }
+
+      if (minutes == 0 && seconds == 0) {
+        stop();
+        return;
+      }
     }, 1000);
 
     return () => {
@@ -42,14 +53,7 @@ export const Timer = () => {
         {minutes < 10 ? `0${minutes}` : minutes}:
         {seconds < 10 ? `0${seconds}` : seconds}
       </div>
-      <button
-        className={`p-4 px-8 bg-${isPaused ? 'green' : 'red'}-500 rounded-md`}
-        onClick={() => {
-          pause();
-        }}
-      >
-        {isPaused ? 'Resume' : 'Pause'}
-      </button>
+      <PauseButton texto={isPaused ? 'Resume' : 'Pause'} evento={pause} />
     </div>
   );
 };
