@@ -3,6 +3,11 @@ import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PauseButton } from './timer/PauseButton';
+import {
+  buildStyles,
+  CircularProgressbarWithChildren,
+} from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 export const Timer = () => {
   const location = useLocation();
@@ -51,10 +56,24 @@ export const Timer = () => {
 
   return (
     <div className="flex flex-col gap-8 w-full h-screen justify-center items-center bg-teal-900">
-      <div className="text-6xl font-bold">
-        {minutes < 10 ? `0${minutes}` : minutes}:
-        {seconds < 10 ? `0${seconds}` : seconds}
-      </div>
+      <CircularProgressbarWithChildren
+        strokeWidth={4}
+        value={minutes * 60 + seconds}
+        maxValue={timer[0] * 60}
+        minValue={0}
+        background={true}
+        styles={buildStyles({
+          pathColor: 'rgba(255,0,0,0.8)',
+          trailColor: 'rgba(0,0,0,0.6)',
+          backgroundColor: 'rgba(0,0,0,0.3)',
+        })}
+      >
+        <div className="font-extrabold text-4xl text-warmGray-300">
+          {minutes < 10 ? `0${minutes}` : minutes}:
+          {seconds < 10 ? `0${seconds}` : seconds}
+        </div>
+      </CircularProgressbarWithChildren>
+
       <div className="flex gap-4">
         <PauseButton
           texto={
