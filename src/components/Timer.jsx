@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PauseButton } from './timer/PauseButton';
@@ -16,7 +18,7 @@ export const Timer = () => {
   }, []);
 
   const pause = () => {
-    console.log(isPaused ? 'Pausado' : 'Reanudado');
+    console.log(!isPaused ? 'Pausado' : 'Reanudado');
     setIsPaused(!isPaused);
   };
 
@@ -48,12 +50,33 @@ export const Timer = () => {
   });
 
   return (
-    <div className="flex flex-col w-full h-screen justify-center items-center bg-teal-900">
-      <div>
+    <div className="flex flex-col gap-8 w-full h-screen justify-center items-center bg-teal-900">
+      <div className="text-6xl font-bold">
         {minutes < 10 ? `0${minutes}` : minutes}:
         {seconds < 10 ? `0${seconds}` : seconds}
       </div>
-      <PauseButton texto={isPaused ? 'Resume' : 'Pause'} evento={pause} />
+      <div className="flex gap-4">
+        <PauseButton
+          texto={
+            isPaused ? (
+              <FontAwesomeIcon
+                className="text-4xl aspect-square"
+                icon={faPlay}
+              />
+            ) : (
+              <FontAwesomeIcon
+                className="text-4xl aspect-square"
+                icon={faPause}
+              />
+            )
+          }
+          evento={pause}
+        />
+
+        <button className="p-4 aspect-square w-max bg-slate-900 text-warmGray-300 font-bold rounded-full">
+          <FontAwesomeIcon className="text-4xl aspect-square" icon={faStop} />
+        </button>
+      </div>
     </div>
   );
 };
