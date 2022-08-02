@@ -17,6 +17,7 @@ export const Timer = () => {
   const [minutes, setMinutes] = useState(0);
 
   const [isPaused, setIsPaused] = useState(false);
+  const [isBreakTime, setIsBreakTime] = useState(false);
 
   useEffect(() => {
     setMinutes(timer[0]);
@@ -29,23 +30,23 @@ export const Timer = () => {
 
   const stop = () => {
     setIsPaused(!isPaused);
+    setIsBreakTime(!isBreakTime);
+    setMinutes(isBreakTime ? timer[1] : timer[0]);
   };
 
   let pomodoro;
   useEffect(() => {
     pomodoro = setInterval(() => {
       if (isPaused) return;
-
-      setSeconds(seconds - 1);
-
-      if (seconds == 0) {
-        setMinutes(minutes - 1);
-        setSeconds(59);
-      }
-
       if (minutes == 0 && seconds == 0) {
         stop();
         return;
+      }
+
+      setSeconds(seconds - 1);
+      if (seconds == 0) {
+        setMinutes(minutes - 1);
+        setSeconds(59);
       }
     }, 1000);
 
@@ -55,15 +56,15 @@ export const Timer = () => {
   });
 
   return (
-    <div className="flex flex-col gap-8 w-full h-screen justify-center items-center bg-teal-900">
+    <div className="flex flex-col gap-8 w-full h-screen justify-center items-center bg-zinc-900">
       <CircularProgressbarWithChildren
         strokeWidth={4}
         value={minutes * 60 + seconds}
-        maxValue={timer[0] * 60}
+        maxValue={isBreakTime ? timer[1] * 60 : timer[0] * 60}
         minValue={0}
         background={true}
         styles={buildStyles({
-          pathColor: 'rgba(255,0,0,0.8)',
+          pathColor: isBreakTime ? 'rgb(0,255,0,0.8)' : 'rgba(255,0,0,0.8)',
           trailColor: 'rgba(0,0,0,0.6)',
           backgroundColor: 'rgba(0,0,0,0.3)',
         })}
@@ -92,7 +93,7 @@ export const Timer = () => {
           evento={pause}
         />
 
-        <button className="p-4 aspect-square w-max bg-slate-900 text-warmGray-300 font-bold rounded-full">
+        <button className="p-4 aspect-square w-max bg-rose-900 text-warmGray-300 font-bold rounded-full">
           <FontAwesomeIcon className="text-4xl aspect-square" icon={faStop} />
         </button>
       </div>

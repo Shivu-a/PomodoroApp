@@ -13,7 +13,7 @@ export const InitialPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen w-full bg-teal-900">
+    <div className="flex justify-center items-center h-screen w-full bg-zinc-900">
       <Link to="/settings">
         <img
           className="h-12 aspect-square fixed top-1 right-1"

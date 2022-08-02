@@ -23,7 +23,7 @@ export const Settings = () => {
   };
 
   return (
-    <div className="flex flex-col p-4 justify-around items-center bg-teal-900 h-screen w-full">
+    <div className="flex flex-col p-4 justify-around items-center bg-zinc-900 h-screen w-full">
       <div>
         <img
           onClick={() => {
@@ -58,7 +58,7 @@ export const Settings = () => {
           {userTimers && (
             <optgroup label="User Timers">
               <option
-                value={userTimers}
+                value={`${userTimers[0]}/${userTimers[1]}`}
               >{`${userTimers[0]}/${userTimers[1]}`}</option>
             </optgroup>
           )}

@@ -22,7 +22,7 @@ export const Configure = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-teal-900 h-screen w-full">
+    <div className="flex justify-center items-center bg-zinc-900 h-screen w-full">
       <div>
         <img
           onClick={() => {
