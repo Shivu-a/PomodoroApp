@@ -1,3 +1,5 @@
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Input } from 'components/form/Input';
 import { H4Title } from 'components/H4Title';
 import { useNavigate } from 'react-router-dom';
@@ -24,12 +26,12 @@ export const Configure = () => {
   return (
     <div className="flex justify-center items-center bg-zinc-900 h-screen w-full">
       <div>
-        <img
+        <FontAwesomeIcon
           onClick={() => {
             navigate(-1);
           }}
-          className="h-12 aspect-square fixed top-1 left-1 "
-          src="https://icons.veryicon.com/png/o/miscellaneous/arrows/go-back-2.png"
+          className="h-12 aspect-square fixed top-4 left-2 text-white"
+          icon={faChevronLeft}
         />
       </div>
 

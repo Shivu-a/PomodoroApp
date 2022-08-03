@@ -1,7 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
+import {
+  faGear,
+  faPause,
+  faPlay,
+  faStop,
+} from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { PauseButton } from './timer/PauseButton';
 import {
   buildStyles,
@@ -11,17 +16,29 @@ import 'react-circular-progressbar/dist/styles.css';
 
 export const Timer = () => {
   const location = useLocation();
-  const timer = location.state.timer;
 
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
 
-  const [isPaused, setIsPaused] = useState(false);
+  const [isPaused, setIsPaused] = useState(true);
   const [isBreakTime, setIsBreakTime] = useState(false);
+
+  const [timer, setTimer] = useState([]);
+
+  const calling = async () => {
+    const selectedTimer = await window.electron.getUserSelectedTimer();
+
+    setTimer(await selectedTimer);
+  };
+
+  useEffect(() => {
+    calling();
+  }, []);
 
   useEffect(() => {
     setMinutes(timer[0]);
-  }, []);
+    console.log(timer);
+  }, [timer]);
 
   const pause = () => {
     console.log(!isPaused ? 'Pausado' : 'Reanudado');
@@ -57,6 +74,17 @@ export const Timer = () => {
 
   return (
     <div className="flex flex-col gap-8 w-full h-screen justify-center items-center bg-zinc-900">
+      <Link to="/settings">
+        {/* <img
+          className="h-12 aspect-square fixed top-1 right-1"
+          src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Windows_Settings_app_icon.png"
+        /> */}
+        <FontAwesomeIcon
+          className="h-12 aspect-square fixed top-1 right-1 text-gray-50"
+          icon={faGear}
+        />
+      </Link>
+
       <CircularProgressbarWithChildren
         strokeWidth={4}
         value={minutes * 60 + seconds}
