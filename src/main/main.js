@@ -12,7 +12,9 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
+import fs from 'fs';
 import path from 'path';
+import path, { dirname } from 'path';
 import {
   addUserTimer,
   deleteUserTimer,
@@ -35,7 +37,18 @@ export default class AppUpdater {
   }
 }
 
+const direc = app.isPackaged
+  ? path.join(process.resourcesPath, 'assets')
+  : path.join(__dirname, '../../assets');
+
+const soundDir = `${direc}/alarm.mp3`;
+const iconDir = `${direc}/icon.png`;
+
 let mainWindow = BrowserWindow;
+
+if (process.platform === 'win32') {
+  app.setAppUserModelId('Pomodoro');
+}
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong) => `IPC test: ${pingPong}`;
@@ -43,8 +56,11 @@ ipcMain.on('ipc-example', async (event, arg) => {
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
+ipcMain.handle('notify', async (event, data) => {
+  return { soundDir, iconDir };
+});
+
 ipcMain.handle('requestTimers', async (event, data) => {
-  console.log(data);
   const timers = getUserTimers();
   return timers;
 });
@@ -55,14 +71,10 @@ ipcMain.handle('deleteUserTimer', async () => {
 
 ipcMain.handle('getUserSelectedTimer', async (event, data) => {
   const userSelectedTimer = await getUserSelectedTimer();
-  console.log(userSelectedTimer);
   return userSelectedTimer;
 });
 
 ipcMain.handle('setUserSelectedTimer', async (event, data) => {
-  console.log('sexo');
-  console.log(data);
-
   setUserSelectedTimer(data);
 });
 

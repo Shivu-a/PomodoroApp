@@ -29,4 +29,7 @@ contextBridge.exposeInMainWorld('electron', {
   deleteUserTimer: () => {
     ipcRenderer.invoke('deleteUserTimer');
   },
+  notify: (message: string) => {
+    return ipcRenderer.invoke('notify', message);
+  },
 });

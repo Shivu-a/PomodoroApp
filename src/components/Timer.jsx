@@ -27,9 +27,9 @@ export const Timer = () => {
 
   const calling = async () => {
     const selectedTimer = await window.electron.getUserSelectedTimer();
-
     setTimer(await selectedTimer);
   };
+  const audio = new Audio();
 
   useEffect(() => {
     calling();
@@ -49,6 +49,7 @@ export const Timer = () => {
     setIsPaused(!isPaused);
     setIsBreakTime(!isBreakTime);
     setMinutes(isBreakTime ? timer[1] : timer[0]);
+    sendNotification();
   };
 
   let pomodoro;
@@ -72,13 +73,27 @@ export const Timer = () => {
     };
   });
 
+  const reset = () => {
+    setMinutes(timer[0]);
+    setSeconds(0);
+    setIsPaused(true);
+  };
+
+  const sendNotification = async () => {
+    const directorio = await window.electron.notify();
+    audio.src = directorio.soundDir;
+
+    const notificacion = new Notification('Pomodoro Ended', {
+      body: !isBreakTime ? 'Is time for a break!' : 'Time to work!',
+      icon: directorio.iconDir,
+    });
+
+    audio.play();
+  };
+
   return (
     <div className="flex flex-col gap-8 w-full h-screen justify-center items-center bg-zinc-900">
       <Link to="/settings">
-        {/* <img
-          className="h-12 aspect-square fixed top-1 right-1"
-          src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Windows_Settings_app_icon.png"
-        /> */}
         <FontAwesomeIcon
           className="h-12 aspect-square fixed top-1 right-1 text-gray-50"
           icon={faGear}
@@ -121,7 +136,12 @@ export const Timer = () => {
           evento={pause}
         />
 
-        <button className="p-4 aspect-square w-max bg-rose-900 text-warmGray-300 font-bold rounded-full">
+        <button
+          onClick={() => {
+            reset();
+          }}
+          className="p-4 aspect-square w-max bg-rose-900 text-warmGray-300 font-bold rounded-full"
+        >
           <FontAwesomeIcon className="text-4xl aspect-square" icon={faStop} />
         </button>
       </div>
