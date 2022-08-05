@@ -37,7 +37,6 @@ export const Timer = () => {
 
   useEffect(() => {
     setMinutes(timer[0]);
-    console.log(timer);
   }, [timer]);
 
   const pause = () => {
@@ -48,7 +47,7 @@ export const Timer = () => {
   const stop = () => {
     setIsPaused(!isPaused);
     setIsBreakTime(!isBreakTime);
-    setMinutes(isBreakTime ? timer[1] : timer[0]);
+    setMinutes(!isBreakTime ? timer[1] : timer[0]);
     sendNotification();
   };
 
