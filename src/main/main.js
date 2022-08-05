@@ -29,13 +29,13 @@ import {
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
-export default class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
-  }
-}
+// export default class AppUpdater {
+//   constructor() {
+//     log.transports.file.level = 'info';
+//     autoUpdater.logger = log;
+//     autoUpdater.checkForUpdatesAndNotify();
+//   }
+// }
 
 const direc = app.isPackaged
   ? path.join(process.resourcesPath, 'assets')
@@ -127,6 +127,7 @@ const createWindow = async () => {
   console.log(bounds);
 
   mainWindow = new BrowserWindow({
+    autoHideMenuBar: true,
     show: false,
     width: bounds[0],
     height: bounds[1],
