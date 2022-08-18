@@ -76,6 +76,7 @@ export const Timer = () => {
     setMinutes(timer[0]);
     setSeconds(0);
     setIsPaused(true);
+    setIsBreakTime(false);
   };
 
   const sendNotification = async () => {
