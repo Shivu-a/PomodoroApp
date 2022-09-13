@@ -1,39 +1,17 @@
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { TimerContext } from 'context/TimerContext';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export const Settings = () => {
   const navigate = useNavigate();
 
-  const [userTimers, setUserTimers] = useState([]);
-
-  const getUserTimers = async () => {
-    const timer = await window.electron.requestTimers('Requesting user timers');
-    setUserTimers(await timer);
-  };
-
-  useEffect(() => {
-    getUserTimers();
-  }, []);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let selectedOption = e.target.children[0].value;
-    let userSelection = selectedOption.split('/');
-    window.electron.setUserSelectedTimer(userSelection, userSelection);
-  };
+  const { handleSubmit, setUserTimers, userTimers } = useContext(TimerContext);
 
   return (
     <div className="flex flex-col p-4 justify-around items-center bg-zinc-900 h-screen w-full">
       <div>
-        {/* <img
-          onClick={() => {
-            navigate(-1);
-          }}
-          className="h-12 aspect-square fixed top-1 left-1 "
-          src="https://icons.veryicon.com/png/o/miscellaneous/arrows/go-back-2.png"
-        /> */}
         <FontAwesomeIcon
           onClick={() => {
             navigate(-1);
@@ -45,7 +23,7 @@ export const Settings = () => {
 
       <form
         className="flex flex-col gap-1 w-full items-center"
-        onSubmit={handleSubmit}
+        onSubmit={(e) => handleSubmit(e)}
       >
         <select
           className="w-2/4 p-2 rounded-sm focus-visible:outline-none focus:outline-none"

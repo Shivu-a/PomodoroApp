@@ -2,26 +2,14 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Input } from 'components/form/Input';
 import { H4Title } from 'components/H4Title';
+import { TimerContext } from 'context/TimerContext';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Configure = () => {
   const navigate = useNavigate();
 
-  const deleteTimer = () => {
-    window.electron.deleteUserTimer();
-  };
-
-  const addTimer = async (e) => {
-    e.preventDefault();
-    const [firstValue, secondValue] = e.target.querySelectorAll('input');
-
-    const timeConcentrating = firstValue.value;
-    const breakTime = secondValue.value;
-
-    const timer = [timeConcentrating, breakTime];
-
-    window.electron.addUserTimer(timer, timer);
-  };
+  const { deleteTimer, addTimer } = useContext(TimerContext);
 
   return (
     <div className="flex justify-center items-center bg-zinc-900 h-screen w-full">
