@@ -17,6 +17,7 @@ export const TimerProvider = ({ children }) => {
     handleSubmit,
     deleteTimer,
     addTimer,
+    getUserTimers,
   } = usePomodoro();
 
   return (
@@ -35,6 +36,7 @@ export const TimerProvider = ({ children }) => {
         handleSubmit,
         deleteTimer,
         addTimer,
+        getUserTimers,
       }}
     >
       {children}

@@ -7,7 +7,12 @@ import { Link, useNavigate } from 'react-router-dom';
 export const Settings = () => {
   const navigate = useNavigate();
 
-  const { handleSubmit, setUserTimers, userTimers } = useContext(TimerContext);
+  const { handleSubmit, setUserTimers, userTimers, getUserTimers } =
+    useContext(TimerContext);
+
+  useEffect(() => {
+    getUserTimers();
+  }, []);
 
   return (
     <div className="flex flex-col p-4 justify-around items-center bg-zinc-900 h-screen w-full">

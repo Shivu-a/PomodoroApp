@@ -87,7 +87,6 @@ export const usePomodoro = () => {
   }, []);
 
   const handleSubmit = (e) => {
-    console.log(e);
     e.preventDefault();
     let selectedOption = e.target.children[0].value;
     let userSelection = selectedOption.split('/');
@@ -108,8 +107,6 @@ export const usePomodoro = () => {
 
     const tempo = [timeConcentrating, breakTime];
 
-    console.log(tempo);
-
     window.electron.addUserTimer(tempo, tempo);
   };
 
@@ -127,5 +124,6 @@ export const usePomodoro = () => {
     handleSubmit,
     deleteTimer,
     addTimer,
+    getUserTimers,
   };
 };
